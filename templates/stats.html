@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Stats</title>
     <style>
+        /* Stile per il form */
         form {
             background-color: #ffffff;
             padding: 20px 30px;
@@ -12,8 +13,7 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
-            margin: auto; /* Centro il form orizzontalmente */
-            margin-top: 10vh; /* Distanza dal top */
+            margin: 30px auto; /* Centro il form orizzontalmente con margine dall'alto */
         }
         form h1 {
             text-align: center;
@@ -52,25 +52,47 @@
         input[type="submit"]:hover {
             background-color: #45a049;
         }
-        .info {
-            font-size: 14px;
-            color: #777;
-            margin-top: -5px;
-            margin-bottom: 10px;
+
+        /* Stile per i dati fuori dal form */
+        .data-list {
+            background-color: #ffffff;
+            padding: 15px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+            list-style-type: none;
+        }
+        .data-list li {
+            font-size: 16px;
+            color: #333;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .data-list li:last-child {
+            border-bottom: none;
+        }
+        .data-list li span {
+            font-weight: bold;
+            color: #555;
         }
     </style>
 </head>
 <body>
-    {% for key, value in url_data.items()if key not in ( "long_url","_id") %}
-    {{key}}: {{value}}
-    {% endfor %}
+    <!-- Visualizzazione dei dati -->
+    <ul class="data-list">
+        {% for key, value in url_data.items() if key not in ("long_url", "_id") %}
+            <li><span>{{ key }}:</span> {{ value }}</li>
+        {% endfor %}
+    </ul>
     
-  
-  <form action="/{{url_data.short_url}}/stats" method="post">
-    <label for="long_url">long_url</label>
-    <input type="text" id="long_url" name="long_url" value="{{url_data.long_url}}">
-    <input type="submit" value="update">
-  </form>
-  
+    <!-- Form per aggiornare long_url -->
+    <form action="/{{ url_data.short_url }}/stats" method="post">
+        <h1>Aggiorna URL</h1>
+        <label for="long_url">Long URL</label>
+        <input type="text" id="long_url" name="long_url" value="{{ url_data.long_url }}">
+        <input type="submit" value="Aggiorna">
+    </form>
 </body>
 </html>
